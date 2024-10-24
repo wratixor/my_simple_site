@@ -2,7 +2,6 @@ import ssl
 
 import aiohttp
 import aiohttp_jinja2
-import asyncpg
 import jinja2
 from aiohttp import web
 from decouple import config
