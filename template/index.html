@@ -1,24 +1,76 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{{title}}</title>
-        <link rel="stylesheet" type="text/css" href="/static/main.css"/>
-        <script type="application/javascript" src="/static/script.js"></script>
-    </head>
-    <body>
-        <div>
-            <h1>{{title}}</h1>
-            <div id="root">
-                <div class="form">
-                    <input id="message_text" class="form__input" type="text"
-                           placeholder="Введите свой отзыв..."/>
-                    <div class="form__button" onclick="sendMessage()">Отправить</div>
-                </div>
-                <div id="messages">
-
-                </div>
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" type="text/css" href="/static/main.css"/>
+    <script type="application/javascript" src="/static/script.js"></script>
+</head>
+<body>
+<header><div class="logo"><a href="https://wratixor.ru"><img src="/static/wratixor-logo.png"/></a></div></header>
+<div class="main">
+    <nav>
+        <h2 class="hpad">Разделы:</h2>
+        <div class="menu"><a href="/" class="amenu">Lorem</a></div>
+        <div class="menu"><a href="/" class="amenu">Lorem</a></div>
+        <div class="menu"><a href="/" class="amenu">Lorem ipsum</a></div>
+        <div class="menu"><a href="/" class="amenu">Lorem ipsum</a></div>
+        <div class="menu"><a href="/" class="amenu">Lorem ipsum dolor</a></div>
+        <div class="menu"><a href="/" class="amenu">Lorem ipsum dolor</a></div>
+        <div class="menu"><a href="/" class="amenu">Lorem ipsum dolor sit amet</a></div>
+        <div class="menu"><a href="/" class="amenu">Lorem ipsum dolor sit amet</a></div>
+        <div class="menu"><a href="/" class="amenu">Lorem ipsum dolor sit amet lorem ipsum dolor sit amet</a></div>
+    </nav>
+    <div class="left">
+        <h2 class="hpad">{{title}}</h2>
+        <div class="lpad">
+            <div class="item">
+                <img class="thumb" src="/static/avatar_bot_thumb.png"/>
+                <a href="/" class="aitem">
+                    <b>Lorem ipsum dolor sit amet lorem ipsum dolor sit amet</b><br/>
+                    Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor sit amet
+                    Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor sit amet
+                </a>
+            </div>
+            <div class="item">
+                <img class="thumb" src="/static/avatar_bot_thumb.png"/>
+                <a href="/" class="aitem">
+                    <b>Lorem ipsum dolor sit amet lorem ipsum dolor sit amet</b><br/>
+                    Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor sit amet
+                    Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor sit amet
+                    Lorem ipsum dolor sit amet lorem ipsum dolor sit amet
+                </a>
+            </div>
+            <div class="item">
+                <img class="thumb" src="/static/avatar_bot_thumb.png"/>
+                <a href="/" class="aitem">
+                    <b>Lorem ipsum dolor sit amet lorem ipsum dolor sit amet</b><br/>
+                    Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor sit amet
+                    Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor sit amet
+                    Lorem ipsum dolor sit amet lorem ipsum dolor sit amet
+                </a>
+            </div>
+            <div class="item">
+                <img class="thumb" src="/static/avatar_bot_thumb.png"/>
+                <a href="/" class="aitem">
+                    <b>Lorem ipsum dolor sit amet lorem ipsum dolor sit amet</b><br/>
+                    Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor sit amet
+                    Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor sit amet
+                    Lorem ipsum dolor sit amet lorem ipsum dolor sit amet
+                </a>
             </div>
         </div>
-    </body>
+    </div>
+</div>
+<div class="main">
+    <footer>
+        <div class="fo">
+            <a href="https://wratixor.ru" class="afo">&copy; 2024-{{year}}, Wratixor &#129333;</a>
+        </div>
+        <div class="fo">
+            <a href="https://yoomoney.ru/to/4100118849397169" class="afo">&#128179; Поддержать проект &#8381;</a>
+        </div>
+    </footer>
+</div>
+</body>
 </html>

@@ -1,105 +1,161 @@
-html {
-    font-family: Verdana, "sans-serif";
-}
-
 body {
-    min-height: 100vh;
-    background: linear-gradient(#f9de59, #f98365) no-repeat;
+  background-color: #202020;
+  color: #ffffff;
+  margin: 0px;
+  padding: 0px;
+  font-family: system-ui, sans-serif;
 }
 
-h1 {
-    text-align: center;
-    color: white;
-    text-shadow: 0 2px 5px rgba(150, 150, 150, 0.8);
+header {
+  display: block;
+  height: 60px;
+  background-color: #ffc231;
+  align-content: center;
 }
 
-#root {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.logo {
+  display: block;
+  height: 60px;
+  background-color: #fdb200;
+  margin: auto;
 }
 
-#messages {
-    width: 70%;
+nav {
+  background-color: #644600;
 }
 
-.message {
-    background-color: white;
+footer {
+  display: block;
+  background-color: #644600;
+  color: #ffe097;
+  text-align: center;
+  align-content: center;
+  padding: 0.2em;
+}
+
+.fo {
+  display: inline-block;
+  width: 40%;
+  padding: 0.2em;
+  text-align: center;
+  align-content: center;
+}
+
+.afo {
+  display: block;
+  height: 1.5em;
+  text-align: center;
+  align-content: center;
+}
+
+@media (max-width: 999px) {
+  nav {
     width: 100%;
-    padding: 20px;
-    border-radius: 10px;
-    -webkit-transition: 0.3s;
-    -moz-transition: 0.3s;
-    transition: 0.3s;
-    -webkit-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.1);
-    -moz-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.1);
-    box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
-    margin-bottom: 10px;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .menu {
+    width: 10em;
+    display: inline-block;
+    padding: 0.2em 0.2em 0.2em 0em;
+  }
+  .hpad {
+    display: none;
+  }
 }
 
-.message:hover {
-    -webkit-transition: 0.3s;
-    -moz-transition: 0.3s;
-    transition: 0.3s;
-    -webkit-box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.5);
-    box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.5);
-}
-
-.message__created {
-    font-size: 12px;
-    color: darkgrey;
-    text-align: right;
-}
-
-.message__text {
-    font-size: 20px;
-    color: black;
-    margin-top: 5px;
-}
-
-.message__ratings {
-    display: flex;
-    justify-content: space-between;
-    font-size: 16px;
-    font-weight: 400;
-    margin-top: 5px;
-}
-
-.form {
+@media (min-width: 1000px) {
+  .main {
+    max-width: 80%;
+  }
+  .logo {
+    max-width: 80%;
+  }
+  .menu {
+    padding: 0em 0.2em 0.4em 0.2em;
+  }
+  nav {
+    max-width: 30%;
+    float: left;
+    height: 100%;
+  }
+  .left {
+    float: left;
     width: 70%;
-    margin-bottom: 20px;
+  }
 }
 
-.form__button {
-    text-align: center;
-    margin-top: 10px;
-    background-color: white;
-    cursor: pointer;
+@media (min-width: 1200px) {
+  .main {
+    max-width: 70%;
+  }
+  .logo {
+    max-width: 70%;
+  }
 }
 
-.form__input, .form__button {
-    box-sizing: border-box;
-    width: 100%;
-    font-size: 18px;
-    outline: none;
-    border: none;
-    padding: 20px;
-    border-radius: 5px;
-    -webkit-transition: 0.3s;
-    -moz-transition: 0.3s;
-    transition: 0.3s;
-    -webkit-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.1);
-    -moz-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.1);
-    box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.1);
+.main {
+  text-align: left;
+  margin: auto;
+  align-content: start;
+  background: #fdb20040;
 }
 
-.form__input:focus, .form__button:hover {
-    -webkit-transition: 0.3s;
-    -moz-transition: 0.3s;
-    transition: 0.3s;
-    -webkit-box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.5);
-    box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.5);
+
+a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.amenu {
+  display: block;
+  background-color: #7f7f7f;
+  border: solid 1px #ca8e00;
+  text-align: left;
+  align-content: center;
+  padding: 0.5em;
+  overflow: hidden;
+}
+
+.menu {
+  margin: 0px;
+  overflow: hidden;
+  font-size: 1.17em;
+  white-space: nowrap;
+}
+
+.lpad {
+  margin: 0px;
+  padding: 0em 1em 0em 1em;
+}
+
+.hpad {
+  margin: 0px;
+  padding: 1em;
+}
+
+.thumb {
+  width: 10em;
+  height: 10em;
+  float: left;
+  text-align: center;
+  align-content: center;
+
+}
+
+.item {
+  margin: 0em 0.2em 0.4em 0.2em;
+  padding: 0px;
+  border: solid 1px #ca8e00;
+}
+
+.aitem {
+  display: block;
+  height: 10em;
+  background-color: #644600;
+  margin: 0px;
+  padding: 0em 1em 0em 1em;
+  text-align: left;
+  align-content: center;
+  overflow: hidden;
 }
