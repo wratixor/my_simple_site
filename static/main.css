@@ -101,6 +101,30 @@ a {
   text-decoration: none;
 }
 
+a:hover, .alarmbutton:hover {
+  color: #000000;
+  background-color: #ffffff40;
+}
+
+a:focus, .alarmbutton:focus {
+  color: #000000;
+  background-color: #ffffffd0;
+}
+
+a:active, .alarmbutton:active {
+  color: #000000;
+  background-color: #ffffff90;
+}
+
+.alarmbutton {
+  background-color: #fdb20040;
+  border: outset 2px #fdb200;
+  text-align: center;
+  align-content: center;
+  padding: 0.5em;
+  margin: 0.5em;
+}
+
 .amenu {
   display: block;
   background-color: #fdb20040;
