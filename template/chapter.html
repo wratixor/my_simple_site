@@ -1,0 +1,11 @@
+{% extends 'index.html' %}
+{% block content %}
+<article class="item">
+    {% if descimg.__len__() > 0 -%}<div class="center"><img class="desc" src="/static/img/{{descimg}}"/></div>{% endif -%}
+    <div class="citem">
+        {% if center == 1 -%}<div class="center">{% endif -%}
+        {{article|safe}}
+    {% if center == 1 -%}</div>{% endif -%}
+    </div>
+</article>
+{% endblock content %}
