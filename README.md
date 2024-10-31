@@ -7,6 +7,7 @@
  - aiohttp</br>
  - aiohttp-jinja2</br>
  - jinja2</br>
+ - pillow</br>
 
 <h3>Install:</h3>
 - <code>git clone https://github.com/wratixor/my_simple_site</code></br>

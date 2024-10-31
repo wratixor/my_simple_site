@@ -1,10 +1,10 @@
 body {
-  background-color: #202020;
   color: #ffffff;
   margin: 0px;
   padding: 0px;
   font-family: system-ui, sans-serif;
   overflow-y: scroll;
+  background: content-box radial-gradient(#000000, #200020);
 }
 
 header {
@@ -66,13 +66,13 @@ footer {
 
 @media (min-width: 950px) {
   .main, .logo  {
-    max-width: 85%;
+    width: 85%;
   }
   .menu {
     padding: 0em 0.2em 0.4em 0.2em;
   }
   nav {
-    max-width: 30%;
+    width: 30%;
     float: left;
     height: 100%;
   }
@@ -84,7 +84,7 @@ footer {
 
 @media (min-width: 1200px) {
   .main, .logo {
-    max-width: 70%;
+    width: 70%;
   }
 }
 

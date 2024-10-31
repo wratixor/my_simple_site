@@ -28,15 +28,9 @@
 <div class="main">
     <nav>
         <h2 class="hpad">Разделы:</h2>
-        <div class="menu"><a href="/sec1" class="amenu">Lorem</a></div>
-        <div class="menu"><a href="/sec2" class="amenu">Lorem</a></div>
-        <div class="menu"><a href="/sec3" class="amenu">Lorem ipsum</a></div>
-        <div class="menu"><a href="/sec4" class="amenu">Lorem ipsum</a></div>
-        <div class="menu"><a href="/sec5" class="amenu">Lorem ipsum dolor</a></div>
-        <div class="menu"><a href="/sec6" class="amenu">Lorem ipsum dolor</a></div>
-        <div class="menu"><a href="/sec7" class="amenu">Lorem ipsum dolor sit amet</a></div>
-        <div class="menu"><a href="/sec8" class="amenu">Lorem ipsum dolor sit amet</a></div>
-        <div class="menu"><a href="/sec9" class="amenu">Lorem ipsum dolor sit amet lorem ipsum dolor sit amet</a></div>
+        {% for s in sections %}
+        <div class="menu"><a href="/{{s['curl']}}" class="amenu">{{s['title']}}</a></div>
+        {% endfor %}
     </nav>
     <div class="left">
         <h2 class="cpad">{{title}}</h2>
@@ -58,41 +52,14 @@
         {% endif -%}
         <div class="lpad" id="main">
             {% block content %}
+            {% for c in chapters %}
             <div class="item">
-                <img class="thumb" src="/static/img/avatar_bot_thumb.png"/>
-                <a href="/sec1/chap1" class="aitem">
-                    <b>Lorem ipsum dolor sit amet lorem ipsum dolor sit amet</b><br/>
-                    Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor sit amet
-                    Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor sit amet
+                <img class="thumb" src="/img/{{c['imageid']}}"/>
+                <a href="/{{c['curl']}}" class="aitem">
+                    {{c['item']|safe}}
                 </a>
             </div>
-            <div class="item">
-                <img class="thumb" src="/static/img/avatar_bot_thumb.png"/>
-                <a href="/sec2/chap2" class="aitem">
-                    <b>Lorem ipsum dolor sit amet lorem ipsum dolor sit amet</b><br/>
-                    Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor sit amet
-                    Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor sit amet
-                    Lorem ipsum dolor sit amet lorem ipsum dolor sit amet
-                </a>
-            </div>
-            <div class="item">
-                <img class="thumb" src="/static/img/avatar_bot_thumb.png"/>
-                <a href="/sec3/chap3" class="aitem">
-                    <b>Lorem ipsum dolor sit amet lorem ipsum dolor sit amet</b><br/>
-                    Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor sit amet
-                    Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor sit amet
-                    Lorem ipsum dolor sit amet lorem ipsum dolor sit amet
-                </a>
-            </div>
-            <div class="item">
-                <img class="thumb" src="/static/img/avatar_bot_thumb.png"/>
-                <a href="/sec4/chap4" class="aitem">
-                    <b>Lorem ipsum dolor sit amet lorem ipsum dolor sit amet</b><br/>
-                    Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor sit amet
-                    Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor sit amet
-                    Lorem ipsum dolor sit amet lorem ipsum dolor sit amet
-                </a>
-            </div>
+            {% endfor %}
             {% endblock content %}
         </div>
     </div>
