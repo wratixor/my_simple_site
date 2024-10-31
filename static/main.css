@@ -167,6 +167,14 @@ a:active, .alarmbutton:active {
   align-content: center;
 }
 
+.middle {
+  width: 32em;
+  max-width: 100%;
+  margin: auto;
+  text-align: left;
+  align-content: center;
+}
+
 .center {
   padding: 1em;
   text-align: center;

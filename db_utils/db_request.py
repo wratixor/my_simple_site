@@ -49,25 +49,29 @@ async def r_article(db: DB, section: str = None, chapter: str = None) -> list[Re
     a: int = 1 if section == 'section-4' else 0
     defaultitem: str = f'''
         <h3>{section} : {chapter}</h3>
-        <i>Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor</i><br/>
-        <code>Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor</code><br/>
         <p>
-            Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor
-            Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor
-            Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor
-            Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor
-            Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor
-            Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor
-            Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor
+            Lorem ipsum dolor sit amet<br/>
+            lorem ipsum dolor sit amet<br/>
+            Lorem ipsum dolor sit amet<br/>
+            lorem ipsum dolor sit amet
         </p>
         <p>
-            Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor
-            Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor
-            Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor
-            Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor
-            Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor
-            Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor
-            Lorem ipsum dolor sit amet lorem ipsum dolor sit amet Lorem ipsum dolor sit amet lorem ipsum dolor
+            Lorem ipsum dolor sit amet<br/>
+            lorem ipsum dolor sit amet<br/>
+            Lorem ipsum dolor sit amet<br/>
+            lorem ipsum dolor sit amet
+        </p>
+        <p>
+            Lorem ipsum dolor sit amet<br/>
+            lorem ipsum dolor sit amet<br/>
+            Lorem ipsum dolor sit amet<br/>
+            lorem ipsum dolor sit amet
+        </p>
+        <p>
+            Lorem ipsum dolor sit amet<br/>
+            lorem ipsum dolor sit amet<br/>
+            Lorem ipsum dolor sit amet<br/>
+            lorem ipsum dolor sit amet
         </p>
         <br/><br/><br/>
         <i>{datetime.datetime.now().strftime('%d.%m.%Y, %H:%M:%S')}</i>
@@ -80,7 +84,7 @@ async def r_article(db: DB, section: str = None, chapter: str = None) -> list[Re
     #         result = await conn.fetch('select * from api.r_article($1::text, $2::text)', section, chapter)
     #     except Exception as e:
     #         logger.error(f'Exception r_article({section}, {chapter}): {e}')
-    result: list = [{'center': a, 'imageid': 'desc', 'article': defaultitem}]
+    result: list = [{'center': a, 'imageid': 'desc' if a != 1 else '', 'article': defaultitem}]
     return result
 
 async def r_page(db: DB, section: str = None, chapter: str = None) -> list[Record]:

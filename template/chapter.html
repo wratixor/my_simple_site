@@ -2,10 +2,10 @@
 {% block content %}
 <article class="item">
     {% if imageid.__len__() > 0 -%}<div class="center"><img class="desc" src="/img/{{imageid}}"/></div>{% endif -%}
+    {% if center == 1 -%}<div class="center"><div class="middle">{% endif -%}
     <div class="citem">
-        {% if center == 1 -%}<div class="center">{% endif -%}
         {{article|safe}}
-    {% if center == 1 -%}</div>{% endif -%}
     </div>
+    {% if center == 1 -%}</div></div>{% endif -%}
 </article>
 {% endblock content %}
