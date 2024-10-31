@@ -26,9 +26,10 @@ async def r_chapter(db: DB, section: str = None) -> list[Record]:
     if section in {'/all', '', None}:
         section = 'glagne'
     defaultitem: str = f'''
-    <i>{datetime.datetime.now().strftime('%d.%m.%Y, %H:%M:%S')}</i> <b>{section.upper()}:</b><br/>
-    Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet
-    Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet
+    <i>{datetime.datetime.now().strftime('%d.%m.%Y, %H:%M:%S')}</i><br/>
+    <b>{section.upper()}:</b><br/>
+    Lorem ipsum dolor sit amet 1 Lorem ipsum dolor sit amet 2 Lorem ipsum dolor sit amet 3 Lorem ipsum dolor sit amet 4
+    Lorem ipsum dolor sit amet 5 Lorem ipsum dolor sit amet 6 Lorem ipsum dolor sit amet 7 Lorem ipsum dolor sit amet 8
     '''
     # pool = await db.get_pool()
     # result: list[Record]
