@@ -91,6 +91,7 @@ async def r_page(db: DB, section: str = None, chapter: str = None) -> list[Recor
     a: int = 1 if section == 'section-4' else 0
     title: str = ((f'{section}: ' if section else 'Wratixor.ru - ')
                   + (f'{chapter}' if chapter else 'Личный сайт кодера-стихоплюя'))
+    curl: str = (f'/{section}' if section else '') + (f'/{chapter}' if chapter else '')
     # pool = await db.get_pool()
     # result: list[Record]
     # async with pool.acquire() as conn:
@@ -98,6 +99,6 @@ async def r_page(db: DB, section: str = None, chapter: str = None) -> list[Recor
     #         result = await conn.fetch('select * from api.r_page($1::text, $2::text)', section, chapter)
     #     except Exception as e:
     #         logger.error(f'Exception r_page({section}, {chapter}): {e}')
-    result: list = [{'adult': a, 'title': f'{title}'}]
+    result: list = [{'adult': a, 'title': title, 'curl': curl}]
     return result
 

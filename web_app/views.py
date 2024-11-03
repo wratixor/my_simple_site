@@ -15,6 +15,7 @@ async def index(request: web.Request):
     page = await r.r_page(request.app['db'], None, None)
     return {'title': page[0]['title'],
             'adult': page[0]['adult'],
+            'curl': page[0]['curl'],
             'sections': sections,
             'chapters': chapters,
             'year': year}
@@ -27,6 +28,7 @@ async def section(request: web.Request):
     page = await r.r_page(request.app['db'], sec, None)
     return {'title': page[0]['title'],
             'adult': page[0]['adult'],
+            'curl': page[0]['curl'],
             'sections': sections,
             'chapters': chapters,
             'year': year}
@@ -40,6 +42,7 @@ async def chapter(request: web.Request):
     article = await r.r_article(request.app['db'], sec, chap)
     return {'title': page[0]['title'],
             'adult': page[0]['adult'],
+            'curl': page[0]['curl'],
             'sections': sections,
             'center': article[0]['center'],
             'imageid': article[0]['imageid'],
@@ -52,5 +55,6 @@ async def admin(request: web.Request):
     page = await r.r_page(request.app['db'], None, None)
     return {'title': page[0]['title'],
             'adult': page[0]['adult'],
+            'curl': page[0]['curl'],
             'sections': sections,
             'year': year}
