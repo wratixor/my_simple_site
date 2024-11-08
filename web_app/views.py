@@ -44,7 +44,7 @@ async def chapter(request: web.Request):
             'adult': page[0]['adult'],
             'curl': page[0]['curl'],
             'sections': sections,
-            'center': article[0]['center'],
+            'flg_center': article[0]['flg_center'],
             'imageid': article[0]['imageid'],
             'article': article[0]['article'],
             'year': year}

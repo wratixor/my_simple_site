@@ -35,9 +35,9 @@ async def r_chapter(db: DB, section: str = None) -> list[Record]:
     # result: list[Record]
     # async with pool.acquire() as conn:
     #     try:
-    #         result = await conn.fetch('select * from api.r_chapter($1::text)', section)
+    #         result = await conn.fetch('select * from api.r_all_chapter($1::text)', section)
     #     except Exception as e:
-    #         logger.error(f'Exception r_chapter({section}): {e}')
+    #         logger.error(f'Exception r_all_chapter({section}): {e}')
     result: list = [{'curl': f'{section}/chapter-1', 'imageid': 'thumb', 'item': defaultitem},
                     {'curl': f'{section}/chapter-2', 'imageid': 'thumb', 'item': defaultitem},
                     {'curl': f'{section}/chapter-3', 'imageid': 'thumb', 'item': defaultitem},
@@ -46,7 +46,7 @@ async def r_chapter(db: DB, section: str = None) -> list[Record]:
     return result
 
 async def r_article(db: DB, section: str = None, chapter: str = None) -> list[Record]:
-    a: int = 1 if section == 'section-4' else 0
+    a: bool = section == 'section-4'
     defaultitem: str = f'''
         <h3>{section} : {chapter}</h3>
         <p>
@@ -81,14 +81,14 @@ async def r_article(db: DB, section: str = None, chapter: str = None) -> list[Re
     # result: list[Record]
     # async with pool.acquire() as conn:
     #     try:
-    #         result = await conn.fetch('select * from api.r_article($1::text, $2::text)', section, chapter)
+    #         result = await conn.fetch('select * from api.r_chapter($1::text, $2::text)', section, chapter)
     #     except Exception as e:
-    #         logger.error(f'Exception r_article({section}, {chapter}): {e}')
-    result: list = [{'center': a, 'imageid': 'desc' if a != 1 else '', 'article': defaultitem}]
+    #         logger.error(f'Exception r_chapter({section}, {chapter}): {e}')
+    result: list = [{'flg_center': a, 'imageid': 'desc' if not a else '', 'article': defaultitem}]
     return result
 
 async def r_page(db: DB, section: str = None, chapter: str = None) -> list[Record]:
-    a: int = 1 if section == 'section-4' else 0
+    a: bool =  section == 'section-4'
     title: str = ((f'{section}: ' if section else 'Wratixor.ru - ')
                   + (f'{chapter}' if chapter else 'Личный сайт кодера-стихоплюя'))
     curl: str = (f'/{section}' if section else '') + (f'/{chapter}' if chapter else '')

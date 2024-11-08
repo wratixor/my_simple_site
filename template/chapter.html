@@ -1,11 +1,11 @@
 {% extends 'index.html' %}
 {% block content %}
 <article class="item">
-    {% if imageid.__len__() > 0 -%}<div class="center"><img class="desc" src="/img/{{imageid}}"/></div>{% endif -%}
-    {% if center == 1 -%}<div class="center"><div class="middle">{% endif -%}
+    {% if imageid.__len__() == 32 -%}<div class="center"><img class="desc" src="/img/{{imageid}}"/></div>{% endif -%}
+    {% if flg_center -%}<div class="center"><div class="middle">{% endif -%}
     <div class="citem">
         {{article|safe}}
     </div>
-    {% if center == 1 -%}</div></div>{% endif -%}
+    {% if flg_center -%}</div></div>{% endif -%}
 </article>
 {% endblock content %}
