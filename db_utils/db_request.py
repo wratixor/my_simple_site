@@ -47,3 +47,13 @@ async def r_page(db: DB, section: str = None, chapter: str = None) -> list[Recor
             logger.error(f'Exception r_page({section}, {chapter}): {e}')
     return result
 
+async def r_image(db: DB, imgid: str = None) -> list[Record]:
+    pool = await db.get_pool()
+    result: list[Record]
+    async with pool.acquire() as conn:
+        try:
+            result = await conn.fetch('select * from api.r_image($1::text)', imgid)
+        except Exception as e:
+            logger.error(f'Exception r_image({imgid}): {e}')
+    return result
+

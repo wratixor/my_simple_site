@@ -8,15 +8,8 @@ from aiohttp import web
 import db_utils.db_request as r
 
 async def get_image(request: web.Request):
-    imageid: str = request.match_info.get('imageid', 'default')
-    img: Image
-    if imageid == 'thumb':
-        img = PIL.Image.new('RGB', (200, 200), color='#ff0000')
-    elif imageid == 'desc':
-        img = PIL.Image.new('RGB', (640, 360), color='#00ff00')
-    else:
-        img = PIL.Image.new('RGB', (36, 36), color='#0000ff')
-    fp = io.BytesIO()
-    img.save(fp, format='PNG')
-    content = fp.getvalue()
-    return web.Response(body=content, content_type="image/png")
+    imageid: str = '5f74613cded5a111c2f4975a4f6ea091' #request.match_info.get('imageid', 'b86ec832a8503110c5d716896816e176')
+    img: list = await r.r_image(request.app['db'], imageid)
+    ext: str = img[0]['ext']
+    content = img[0]['image']
+    return web.Response(body=content, content_type=f'image/{ext}')

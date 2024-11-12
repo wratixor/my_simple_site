@@ -73,10 +73,10 @@ AS $function$
 
   RETURN (
     SELECT
-      case when not l_check_curl_sec                   then 'Недопустимый набор символов URL, допустимы a-z и _ от 3-64 символа'
+      case when not l_check_curl_sec then 'Недопустимый набор символов URL, допустимы a-z и _ от 3-64 символа'
            when l_check_add                            then 'Раздел добавлен /' || l_curl_sec
            when l_check_update                         then 'Раздел обновлён /' || l_curl_sec
-           when l_gid > 0 and not l_check_gid          then 'Отсутствует раздел #' || l_gid
+           when l_gid > 0 and not l_check_gid then 'Отсутствует раздел #' || l_gid
            when not l_check_available then 'Раздел /'  || l_curl_sec || ' - уже существует. Задайте другой URL'
            else 'Не выполнено' end::text as status
     FOR READ ONLY
@@ -233,9 +233,8 @@ $function$
 
 select * from api.s_aou_image('\x89504E470D0A1A0A2020200D4948445220202020202020200802202020FC18EDA3202020017352474220AECE1CE92020200467414D412020B18F0BFC6105202020097048597320200EC320200EC301C76FA8642020201A49444154484BEDC1010D202020C2A0F74FED660E20202080AB010C20200136220AAD2020202049454E44AE426082'::bytea);
 
-/*
 select * from api.s_aou_image('\x89504E470D0A1A0A2020200D4948445220202020202020200802202020FC18EDA3202020017352474220AECE1CE92020200467414D412020B18F0BFC6105202020097048597320200EC320200EC301C76FA8642020201A49444154484BEDC1010D202020C2A0F74FED660E20202080AB010C20200136220AAD2020202049454E44AE426082'::bytea, 'png'::text, 'b86ec832a8503110c5d716896816e176'::text);
-*/
+
 
 select * from image;
 
@@ -295,8 +294,8 @@ BEGIN
     l_gid := (select image_gid from rmaster.image where curl = 'b86ec832a8503110c5d716896816e176');
   END IF;
   RETURN QUERY
-    select s.image::bytea as curl
-         , s.ext::text as ext
+    select s.image::bytea as image
+         , lower(s.ext)::text as ext
       from rmaster.image as s
     FOR READ ONLY;
 RETURN;
