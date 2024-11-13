@@ -12,8 +12,9 @@ insert into rmaster.zmtd_priority (priority_gid, description) values
 (4, 'Неважное'),
 (5, 'Архив');
 
+/*
 select * from zmtd_priority;
-
+*/
 
 drop SEQUENCE if exists rmaster.section_sq cascade;
 CREATE SEQUENCE rmaster.section_sq
@@ -157,8 +158,9 @@ END
 $function$
 ;
 
+/*
 select * from api.r_section();
-
+*/
 
 drop SEQUENCE if exists rmaster.image_sq cascade;
 CREATE SEQUENCE rmaster.image_sq
@@ -193,14 +195,15 @@ AS $function$
   l_check_available boolean := false;
   l_check_gid boolean := false;
   l_check_add boolean := false;
+  l_check_curl boolean := lower(i_curl) ~ '^[0-9a-f]{32}$';
 
   l_format varchar(8) := lower(i_format);
-  l_curl char(32) := i_curl;
+  l_curl char(32) := coalesce(i_curl, '');
   l_hash char(32) := md5(i_image);
 
  BEGIN
 
-  IF l_curl is not null THEN
+  IF l_curl <> '' and l_check_curl THEN
     l_check_gid := ((select count(1) from rmaster.image where curl = l_curl) = 1);
   END IF;
 
@@ -211,7 +214,7 @@ AS $function$
     l_check_update := true;
   END IF;
 
-  IF l_curl is null and l_check_available THEN
+  IF not l_check_gid and l_check_available THEN
     insert into rmaster.image (image, ext, curl)
                        values (i_image, l_format, l_hash);
     l_check_add := true;
@@ -219,10 +222,10 @@ AS $function$
 
   RETURN (
     SELECT
-      case when l_check_add                            then 'Загружено изображение #' || l_hash
-           when l_check_update                         then 'Обновлено изображение #' || l_hash
-           when l_curl is not null and not l_check_gid then 'Отсутствует изображение #' || l_curl
-           when not l_check_available                  then 'Изображение #' || l_hash || ' уже есть в базе.'
+      case when l_check_add                            then 'Загружено изображение /' || l_hash
+           when l_check_update                         then 'Обновлено изображение /' || l_hash
+           when l_curl <> '' and not l_check_gid       then 'Отсутствует изображение /' || l_curl
+           when not l_check_available                  then 'Изображение /' || l_hash || ' уже есть в базе.'
            else 'Не выполнено' end::text as status
     FOR READ ONLY
   );
@@ -231,12 +234,12 @@ $function$
 ;
 
 
-select * from api.s_aou_image('\x89504E470D0A1A0A2020200D4948445220202020202020200802202020FC18EDA3202020017352474220AECE1CE92020200467414D412020B18F0BFC6105202020097048597320200EC320200EC301C76FA8642020201A49444154484BEDC1010D202020C2A0F74FED660E20202080AB010C20200136220AAD2020202049454E44AE426082'::bytea);
+select * from api.s_aou_image('\x89504e470d0a1a0a0000000d4948445200000040000000400802000000250be689000000017352474200aece1ce90000000467414d410000b18f0bfc6105000000097048597300000ec300000ec301c76fa86400000023494441546843edc1010d000000c2a0f74f6d0f070400000000000000000000009cab01304000010c606ff50000000049454e44ae426082'::bytea);
 
-select * from api.s_aou_image('\x89504E470D0A1A0A2020200D4948445220202020202020200802202020FC18EDA3202020017352474220AECE1CE92020200467414D412020B18F0BFC6105202020097048597320200EC320200EC301C76FA8642020201A49444154484BEDC1010D202020C2A0F74FED660E20202080AB010C20200136220AAD2020202049454E44AE426082'::bytea, 'png'::text, 'b86ec832a8503110c5d716896816e176'::text);
-
-
+/*
 select * from image;
+select image::text from image where curl = '3177c2b93127d51fa22b9e043839e89c';
+*/
 
 DROP TYPE IF EXISTS api.t_all_images CASCADE;
 CREATE TYPE api.t_all_images AS (
@@ -291,19 +294,25 @@ BEGIN
   IF l_check_img THEN
     l_gid := (select image_gid from rmaster.image where curl = l_curl_img);
   ELSE
-    l_gid := (select image_gid from rmaster.image where curl = 'b86ec832a8503110c5d716896816e176');
+    l_gid := (select image_gid from rmaster.image where curl = '3177c2b93127d51fa22b9e043839e89c');
   END IF;
   RETURN QUERY
     select s.image::bytea as image
          , lower(s.ext)::text as ext
       from rmaster.image as s
+     where s.image_gid = l_gid
     FOR READ ONLY;
 RETURN;
 END
 $function$
 ;
 
+/*
 select * from api.r_image();
+select * from api.r_image('3177c2b93127d51fa22b9e043839e89c'::text);
+select * from api.r_image('53f5a970493be6b35bb5d3f127e9245b'::text);
+select * from api.r_image('df9dcbf3646787209973a055ee92bfc3'::text);
+*/
 
 drop SEQUENCE if exists rmaster.chapter_sq cascade;
 CREATE SEQUENCE rmaster.chapter_sq
@@ -421,12 +430,12 @@ $function$
 ;
 
 select * from api.s_aou_chapter('dev_null'::text
-                               , 'void'::text
-                               , '<b>Void</b><br/><code>public static void</code><br/><p>Default void page</p>'::text
+                               , 'void_2'::text
+                               , '<b>Void</b><br><code>public static void</code><br><p>Default void page</p><p>lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet!</p>'::text
                                , 5::int
                                , 'Void'::text
-                               , 'b86ec832a8503110c5d716896816e176'::text
-                               , 'b86ec832a8503110c5d716896816e176'::text);
+                               , '3177c2b93127d51fa22b9e043839e89c'::text
+                               , '3177c2b93127d51fa22b9e043839e89c'::text);
 
 select * from api.s_aou_chapter('dev_null'::text
                                , 'dev_null'::text
@@ -461,8 +470,9 @@ select * from api.s_aou_chapter('dev_null'::text
                                , false::boolean
                                , null::bigint);
 
-
+/*
 select * from rmaster.chapter;
+*/
 
 DROP FUNCTION IF EXISTS api.s_crop(text);
 CREATE OR REPLACE FUNCTION api.s_crop(i_text text)
@@ -471,7 +481,7 @@ CREATE OR REPLACE FUNCTION api.s_crop(i_text text)
  VOLATILE SECURITY DEFINER COST 1
 AS $function$
  DECLARE
-  l_text text := substring(regexp_replace(i_text, '<.*?>', ' ', 'g') from 0 for 255);
+  l_text text := substring(regexp_replace(i_text, '<.*?>', ' ', 'g') from 0 for 200);
  BEGIN
   RETURN l_text;
  END
@@ -506,7 +516,7 @@ BEGIN
         select curl, imageid, item, chapter_gid from (
 	    select (s.curl || '/' || c.curl)::text as curl
 	         , i.curl::text as imageid
-	         , ('<b>' || c.title || '</b><br/>' || '<i>' || to_char(c.update_date, 'DD.MM.YYYY, HH24:MI:SS') || '</i></br>' || api.s_crop(c.article))::text as item
+	         , ('<b>' || c.title || '</b><br>' || '<i>' || to_char(c.update_date, 'DD.MM.YYYY, HH24:MI:SS') || '</i><br>' || api.s_crop(c.article))::text as item
              , c.chapter_gid::bigint as chapter_gid
              , c.priority
              , c.update_date
@@ -517,7 +527,7 @@ BEGIN
          union
 	    select (s.curl || '/' || c.curl)::text as curl
 	         , i.curl::text as imageid
-	         , ('<b>' || c.title || '</b><br/>' || '<i>' || to_char(c.update_date, 'DD.MM.YYYY, HH24:MI:SS') || '</i></br>' || api.s_crop(c.article))::text as item
+	         , ('<b>' || c.title || '</b><br>' || '<i>' || to_char(c.update_date, 'DD.MM.YYYY, HH24:MI:SS') || '</i><br>' || api.s_crop(c.article))::text as item
              , c.chapter_gid::bigint as chapter_gid
              , c.priority
              , c.update_date
@@ -561,7 +571,7 @@ BEGIN
     RETURN QUERY
 	    select c.center_flg::boolean as flg_center
 	         , i.curl::text as imageid
-	         , (c.article || '<br/><br/><br/><i>' || to_char(c.start_date, 'DD.MM.YYYY, HH24:MI:SS') || ' / ' || to_char(c.update_date, 'DD.MM.YYYY, HH24:MI:SS') || '</i><br/>' )::text as article
+	         , (c.article || '<br><br><br><i>' || to_char(c.start_date, 'DD.MM.YYYY, HH24:MI:SS') || ' / ' || to_char(c.update_date, 'DD.MM.YYYY, HH24:MI:SS') || '</i><br>' )::text as article
              , c.chapter_gid::bigint as gid
 	      from rmaster.chapter as c
 	      left join rmaster.image as i on i.image_gid = c.image_gid
@@ -580,9 +590,11 @@ END
 $function$
 ;
 
+/*
 select * from api.r_chapter('important'::text);
 
 select * from rmaster.chapter;
+*/
 
 drop SEQUENCE if exists rmaster.title_sq cascade;
 CREATE SEQUENCE rmaster.title_sq
@@ -665,10 +677,12 @@ AS $function$
 $function$
 ;
 
+/*
 select * from api.s_rnd_title();
 select * from api.s_rnd_title();
 select * from api.s_rnd_title();
 select * from api.s_rnd_title();
+*/
 
 DROP TYPE IF EXISTS api.t_all_title CASCADE;
 CREATE TYPE api.t_all_title AS (
@@ -696,7 +710,9 @@ END
 $function$
 ;
 
+/*
 select * from api.r_all_title();
+*/
 
 DROP TYPE IF EXISTS api.t_page CASCADE;
 CREATE TYPE api.t_page AS (
@@ -755,10 +771,11 @@ END
 $function$
 ;
 
+/*
 select * from api.r_page(null, null);
 select * from api.r_page('dev_null'::text, null);
 select * from api.r_page('dev_null'::text, 'important_2'::text);
-
+*/
 
 DROP FUNCTION IF EXISTS api.s_drop(text, bigint);
 CREATE OR REPLACE FUNCTION api.s_drop(i_tablename text, i_gid bigint)

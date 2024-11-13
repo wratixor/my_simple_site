@@ -23,11 +23,11 @@
     <meta name="title" content="{{title}}">
     <meta name="description" content="Wratixor.ru - мой личный сайт, на который я буду выкладывать информацию по своим проектам, новости и свои стишки. Возможно Вы меня где то встречали под никами: Wratixor, Василий Танатович, Харон Танатович Бессмертный или Братушка Всрусь">
     <meta name="keywords" content="Wratixor, Василий Танатович, Харон Танатович, Харон Танатович Бессмертный, Братушка Всрусь">
-    <link rel="stylesheet" type="text/css" href="/static/main.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/main.css">
     {% if adult -%}<script type="application/javascript" src="/static/script.js"></script>{% endif -%}
 </head>
 <body {% if adult -%}onload="initFunc()"{% endif -%}>
-<header><div class="logo"><a href="https://wratixor.ru"><img src="/static/wratixor-logo.png"/></a></div></header>
+<header><div class="logo"><a href="https://wratixor.ru"><img src="/static/wratixor-logo.png"></a></div></header>
 <div class="main">
     <nav>
         <h2 class="hpad">Разделы:</h2>
@@ -57,7 +57,7 @@
             {% block content %}
             {% for c in chapters %}
             <div class="item">
-                <img class="thumb" src="/img/{{c['imageid']}}"/>
+                <img class="thumb" src="/img/{{c['imageid']}}">
                 <a href="/{{c['curl']}}" class="aitem">
                     {{c['item']|safe}}
                 </a>

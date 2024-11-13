@@ -57,3 +57,23 @@ async def r_image(db: DB, imgid: str = None) -> list[Record]:
             logger.error(f'Exception r_image({imgid}): {e}')
     return result
 
+async def r_all_images(db: DB) -> list[Record]:
+    pool = await db.get_pool()
+    result: list[Record]
+    async with pool.acquire() as conn:
+        try:
+            result = await conn.fetch('select * from api.r_all_images()')
+        except Exception as e:
+            logger.error(f'Exception r_all_images(=): {e}')
+    return result
+
+async def s_aou_image(db: DB, image: bytes, ext: str = None, curl: str = None) -> str:
+    pool = await db.get_pool()
+    result: str
+    async with pool.acquire() as conn:
+        try:
+            result = await conn.fetchval('select * from api.s_aou_image($1::bytea, $2::text, $3::text)', image, ext, curl)
+        except Exception as e:
+            result = f'Exception s_aou_image({image}, {ext}, {curl}): {e}'
+            logger.error(result)
+    return result
