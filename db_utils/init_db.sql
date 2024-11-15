@@ -162,6 +162,7 @@ $function$
 select * from api.r_section();
 */
 
+
 drop SEQUENCE if exists rmaster.image_sq cascade;
 CREATE SEQUENCE rmaster.image_sq
 INCREMENT 1
@@ -837,3 +838,170 @@ $function$
 select * from api.s_drop('t'::text, 107::bigint);
 
 
+drop table if exists rmaster.auth cascade;
+CREATE TABLE rmaster.auth (
+    login varchar(64) NOT NULL,
+    passhash char(32) NOT null,
+    admin_flg boolean NOT null,
+    session_gid char(32)  null,
+    CONSTRAINT "auth$pk" PRIMARY KEY (login)
+);
+
+
+DROP FUNCTION IF EXISTS api.s_get_hash(text, text);
+CREATE OR REPLACE FUNCTION api.s_get_hash(i_login text, i_pass text)
+ RETURNS text
+ LANGUAGE plpgsql
+ VOLATILE SECURITY DEFINER COST 1
+AS $function$
+ DECLARE
+  l_salt text := 'LoremIpsumDolorSitAmet';
+  l_hash char(32) := md5(i_login || i_pass || l_salt);
+ BEGIN
+  RETURN (l_hash);
+ END
+$function$
+;
+
+/*
+select * from api.s_get_hash('vasya'::text, to_char(now(), 'YYYYMMDDHH24MISSMSUS')::text);
+*/
+
+DROP FUNCTION IF EXISTS api.s_aou_auth(text, text, text);
+CREATE OR REPLACE FUNCTION api.s_aou_auth(i_login text, i_pass text, i_new_pass text)
+ RETURNS text
+ LANGUAGE plpgsql
+ VOLATILE SECURITY DEFINER COST 1
+AS $function$
+ DECLARE
+  l_check_update boolean := false;
+  l_check_available boolean := false;
+  l_check_add boolean := false;
+  l_check_new_admin boolean := false;
+  l_check_correct boolean := false;
+  l_check_reg boolean := i_pass = i_new_pass;
+  l_check_login boolean := i_login ~ '^[a-zA-Z0-9_]{3,64}$';
+  l_check_pass boolean := i_pass ~ '^....*$';
+  l_check_npass boolean := i_new_pass ~ '^....*$';
+
+  l_login varchar(64) := i_login;
+  l_pass char(32) := api.s_get_hash(l_login::text, i_pass::text);
+  l_npass char(32) := api.s_get_hash(l_login::text, i_new_pass::text);
+
+ BEGIN
+
+  IF l_check_login and l_check_pass THEN
+     l_check_new_admin := (((select count(1) from rmaster.auth) = 0) and l_check_reg);
+     IF l_check_reg THEN
+        l_check_available := ((select count(1) from rmaster.auth where login = l_login) = 0);
+        IF l_check_available THEN
+           insert into rmaster.auth (login, passhash, admin_flg)
+                             values (l_login, l_pass, l_check_new_admin);
+           l_check_add := true;
+        END IF;
+     ELSE
+        IF l_check_npass THEN
+           l_check_correct := ((select count(1) from rmaster.auth where login = l_login and passhash = l_pass) = 1);
+           IF l_check_correct THEN
+              update rmaster.auth set passhash = l_npass where login = l_login;
+              l_check_update := true;
+           END IF;
+        END IF;
+     END IF;
+  END IF;
+
+  RETURN (
+    SELECT
+      case when     l_check_add                        then 'register'
+           when     l_check_update                     then 'update'
+           when not l_check_available and l_check_reg  then 'no_available_login'
+           when not l_check_login                      then 'incorrect_login'
+           when not l_check_pass                       then 'short_password'
+           when not l_check_npass                      then 'short_new_password'
+           when not l_check_correct                    then 'incorrect_login_or_password'
+           else 'do_nothing' end::text as status
+    FOR READ ONLY
+  );
+ END
+$function$
+;
+
+
+DROP FUNCTION IF EXISTS api.s_set_auth(text, text);
+CREATE OR REPLACE FUNCTION api.s_set_auth(i_login text, i_pass text)
+ RETURNS text
+ LANGUAGE plpgsql
+ VOLATILE SECURITY DEFINER COST 1
+AS $function$
+ DECLARE
+  l_check_correct boolean := false;
+  l_check_login boolean := i_login ~ '^[a-zA-Z0-9_]{3,64}$';
+  l_check_pass boolean := i_pass ~ '^....*$';
+
+  l_login varchar(64) := i_login;
+  l_pass char(32) := api.s_get_hash(l_login::text, i_pass::text);
+
+  l_session char(32) := api.s_get_hash(l_login::text, to_char(now(), 'YYYYMMDDHH24MISSMSUS')::text);
+
+ BEGIN
+
+  IF l_check_login and l_check_pass THEN
+     l_check_correct := ((select count(1) from rmaster.auth where login = l_login and passhash = l_pass) = 1);
+     IF l_check_correct THEN
+        update rmaster.auth set session_gid = l_session where login = l_login;
+     END IF;
+  END IF;
+
+  RETURN (
+    SELECT
+      case when not l_check_login                      then 'incorrect_login'
+           when not l_check_pass                       then 'short_password'
+           when not l_check_correct                    then 'incorrect_login_or_password'
+           else l_session end::text as status
+    FOR READ ONLY
+  );
+ END
+$function$
+;
+
+
+
+DROP FUNCTION IF EXISTS api.s_get_auth(text, text);
+CREATE OR REPLACE FUNCTION api.s_get_auth(i_login text, i_session text)
+ RETURNS text
+ LANGUAGE plpgsql
+ VOLATILE SECURITY DEFINER COST 1
+AS $function$
+ DECLARE
+  l_check_correct boolean := false;
+  l_check_admin   boolean := false;
+  l_check_login   boolean := i_login ~ '^[a-zA-Z0-9_]{3,64}$';
+  l_check_session boolean := i_sessin ~ '^[0-9a-f]{32}$';
+
+  l_login varchar(64) := i_login;
+  l_session  char(32) := i_session;
+
+ BEGIN
+
+  IF l_check_login and l_check_session THEN
+     l_check_correct := ((select count(1) from rmaster.auth where login = l_login and session_gid = l_session) = 1);
+     IF l_check_correct THEN
+        l_check_admin := (select admin_flg from rmaster.auth where login = l_login);
+     END IF;
+  END IF;
+
+  IF l_check_login and not l_check_correct THEN
+     update rmaster.auth set session_gid = null where login = l_login;
+  END IF;
+
+  RETURN (
+    SELECT case when     l_check_admin                      then 'admin'
+                when not l_check_admin and l_check_correct  then 'user'
+                when not l_check_login                      then 'incorrect_login'
+                when not l_check_correct and l_check_login  then 'reset_session'
+                else 'anon' end::text as status
+    FOR READ ONLY
+  );
+ END
+$function$
+;

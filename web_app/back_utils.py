@@ -1,3 +1,4 @@
+import hashlib
 import io
 import logging
 
@@ -7,6 +8,10 @@ import db_utils.db_request as r
 
 logger = logging.getLogger(__name__)
 
+def hash_pass (password: str) -> str:
+    h = hashlib.sha512(password.encode('utf-8'))
+    h_pass: str = h.hexdigest()
+    return h_pass
 
 async def get_image(request: web.Request):
     imageid: str = request.match_info.get('imageid', '3177c2b93127d51fa22b9e043839e89c')
@@ -28,3 +33,17 @@ async def save_image(request: web.Request):
         result = await r.s_aou_image(request.app['db'], buf.getvalue(), ext, curl)
         logger.info(result)
     raise web.HTTPSeeOther(location=f"/admin/img")
+
+async def save_user(request: web.Request):
+    post = await request.post()
+    login: str = post.get('login')
+    t_login: str = None if login.__len__() < 3 else login
+    password: str = post.get('password')
+    t_password: str = None if password.__len__() < 3 else hash_pass(password)
+    new_password: str = post.get('new_password')
+    t_new_password: str = None if new_password.__len__() < 3 else hash_pass(new_password)
+    if t_login and t_password:
+        result = await r.s_aou_auth(request.app['db'], t_login, t_password, t_new_password)
+        logger.info(result)
+        raise web.HTTPSeeOther(location=f"?notyfy={result}")
+    raise web.HTTPSeeOther(location=f"?notyfy=PostRequestError")

@@ -24,7 +24,8 @@
     <meta name="description" content="Wratixor.ru - мой личный сайт, на который я буду выкладывать информацию по своим проектам, новости и свои стишки. Возможно Вы меня где то встречали под никами: Wratixor, Василий Танатович, Харон Танатович Бессмертный или Братушка Всрусь">
     <meta name="keywords" content="Wratixor, Василий Танатович, Харон Танатович, Харон Танатович Бессмертный, Братушка Всрусь">
     <link rel="stylesheet" type="text/css" href="/static/main.css">
-    {% if adult -%}<script type="application/javascript" src="/static/script.js"></script>{% endif -%}
+    {% if adult -%}<script type="application/javascript" src="/static/adult_alarm.js"></script>{% endif -%}
+    <script type="application/javascript" src="/static/notify_alarm.js"></script>
 </head>
 <body {% if adult -%}onload="initFunc()"{% endif -%}>
 <header><div class="logo"><a href="https://wratixor.ru"><img src="/static/wratixor-logo.png"></a></div></header>

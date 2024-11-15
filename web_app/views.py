@@ -59,6 +59,7 @@ async def admin(request: web.Request):
             'sections': sections,
             'year': year}
 
+
 @aiohttp_jinja2.template('admin_img.html')
 async def admin_img(request: web.Request):
     sections = await r.r_section(request.app['db'])

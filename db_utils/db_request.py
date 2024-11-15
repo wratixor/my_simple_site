@@ -57,6 +57,39 @@ async def r_image(db: DB, imgid: str = None) -> list[Record]:
             logger.error(f'Exception r_image({imgid}): {e}')
     return result
 
+async def s_aou_auth(db: DB, login: str = None, password: str = None, new_password: str = None) -> str:
+    pool = await db.get_pool()
+    result: str
+    async with pool.acquire() as conn:
+        try:
+            result = await conn.fetchval('select * from api.s_aou_auth($1::text, $2::text, $3::text)', login, password, new_password)
+        except Exception as e:
+            result = f'Exception s_aou_auth({login}, {password}, {new_password}): {e}'
+            logger.error(result)
+    return result
+
+async def s_set_auth(db: DB, login: str = None, password: str = None) -> str:
+    pool = await db.get_pool()
+    result: str
+    async with pool.acquire() as conn:
+        try:
+            result = await conn.fetchval('select * from api.s_set_auth($1::text, $2::text)', login, password)
+        except Exception as e:
+            result = f'Exception s_set_auth({login}, {password}): {e}'
+            logger.error(result)
+    return result
+
+async def s_get_auth(db: DB, login: str = None, session: str = None) -> str:
+    pool = await db.get_pool()
+    result: str
+    async with pool.acquire() as conn:
+        try:
+            result = await conn.fetchval('select * from api.s_get_auth($1::text, $2::text)', login, session)
+        except Exception as e:
+            result = f'Exception s_get_auth({login}, {session}): {e}'
+            logger.error(result)
+    return result
+
 async def r_all_images(db: DB) -> list[Record]:
     pool = await db.get_pool()
     result: list[Record]
