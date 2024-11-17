@@ -28,7 +28,20 @@
     <script type="application/javascript" src="/static/notify_alarm.js"></script>
 </head>
 <body {% if adult -%}onload="initFunc()"{% endif -%}>
-<header><div class="logo"><a href="https://wratixor.ru"><img src="/static/wratixor-logo.png"></a></div></header>
+<header>
+    <div class="logo"><a class="pad" href="https://wratixor.ru"><img src="/static/wratixor-logo.png"></a>
+        <div class="auth">
+            <a class="pad" href="/user">
+                {% if auth == 'anon' -%}
+                Регистрация и вход
+                {% else -%}
+                {{login}}
+                {% endif -%}
+            </a>
+        </div>
+    </div>
+
+</header>
 <div class="main">
     <nav>
         <h2 class="hpad">Разделы:</h2>

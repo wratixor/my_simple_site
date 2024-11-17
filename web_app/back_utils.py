@@ -2,6 +2,7 @@ import hashlib
 import io
 import logging
 
+import aiohttp
 from aiohttp import web
 
 import db_utils.db_request as r
@@ -45,5 +46,26 @@ async def save_user(request: web.Request):
     if t_login and t_password:
         result = await r.s_aou_auth(request.app['db'], t_login, t_password, t_new_password)
         logger.info(result)
-        raise web.HTTPSeeOther(location=f"?notyfy={result}")
-    raise web.HTTPSeeOther(location=f"?notyfy=PostRequestError")
+        raise web.HTTPSeeOther(location=f"/user?notify={result}")
+    raise web.HTTPSeeOther(location=f"/user?notify=PostRequestError")
+
+async def set_user(request: web.Request):
+    post = await request.post()
+    login: str = post.get('login')
+    t_login: str = None if login.__len__() < 3 else login
+    password: str = post.get('password')
+    t_password: str = None if password.__len__() < 3 else hash_pass(password)
+    if t_login and t_password:
+        result = await r.s_set_auth(request.app['db'], t_login, t_password)
+        if result not in {'incorrect_login', 'short_password', 'incorrect_login_or_password'}:
+            resp: web.Response = web.Response(status=303, headers={'location': '/user?notify=Successfully_completed!'})
+            resp.set_cookie(name='user', value=t_login, secure=True)
+            resp.set_cookie(name='sid', value=result, secure=True)
+            return resp
+        else:
+            resp: web.Response = web.Response(status=303, headers={'location': f'/user?notify={result}'})
+            resp.del_cookie(name='user')
+            resp.del_cookie(name='sid')
+            logger.info(result)
+            return resp
+    raise web.HTTPSeeOther(location=f"/user?notify=PostRequestError")

@@ -16,6 +16,8 @@ async def index(request: web.Request):
     return {'title': page[0]['title'],
             'adult': page[0]['adult'],
             'curl': page[0]['curl'],
+            'auth': request.app['auth'],
+            'login': request.app['login'],
             'sections': sections,
             'chapters': chapters,
             'year': year}
@@ -29,6 +31,8 @@ async def section(request: web.Request):
     return {'title': page[0]['title'],
             'adult': page[0]['adult'],
             'curl': page[0]['curl'],
+            'auth': request.app['auth'],
+            'login': request.app['login'],
             'sections': sections,
             'chapters': chapters,
             'year': year}
@@ -43,22 +47,38 @@ async def chapter(request: web.Request):
     return {'title': page[0]['title'],
             'adult': page[0]['adult'],
             'curl': page[0]['curl'],
+            'auth': request.app['auth'],
+            'login': request.app['login'],
             'sections': sections,
             'flg_center': article[0]['flg_center'],
             'imageid': article[0]['imageid'],
             'article': article[0]['article'],
             'year': year}
 
-@aiohttp_jinja2.template('admin.html')
-async def admin(request: web.Request):
+@aiohttp_jinja2.template('user.html')
+async def user(request: web.Request):
     sections = await r.r_section(request.app['db'])
     page = await r.r_page(request.app['db'], None, None)
     return {'title': page[0]['title'],
             'adult': page[0]['adult'],
             'curl': page[0]['curl'],
+            'auth': request.app['auth'],
+            'login': request.app['login'],
             'sections': sections,
             'year': year}
 
+@aiohttp_jinja2.template('admin.html')
+async def admin(request: web.Request):
+    sections = await r.r_section(request.app['db'])
+    page = await r.r_page(request.app['db'], None, None)
+    auth: str = request.app['auth']
+    return {'title': page[0]['title'],
+            'adult': page[0]['adult'],
+            'curl': page[0]['curl'],
+            'auth': request.app['auth'],
+            'login': request.app['login'],
+            'sections': sections,
+            'year': year}
 
 @aiohttp_jinja2.template('admin_img.html')
 async def admin_img(request: web.Request):
@@ -69,7 +89,9 @@ async def admin_img(request: web.Request):
     return {'title': page[0]['title'],
             'adult': page[0]['adult'],
             'curl': page[0]['curl'],
+            'auth': request.app['auth'],
+            'login': request.app['login'],
+            'sections': sections,
             'imageid': imageid,
             'all_images': all_images,
-            'sections': sections,
             'year': year}

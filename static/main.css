@@ -19,10 +19,33 @@ header {
 }
 
 .logo {
-  display: block;
+  display: flex;
   height: 60px;
   background-color: #fdb200;
   margin: auto;
+  align-content: center;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 500px;
+}
+.pad {
+  height: 60px;
+  margin: 0px;
+  align-content: center;
+  min-width: 10em;
+}
+.auth {
+  display: inline-flex;
+  height: 60px;
+  background-color: #fdb200;
+  width: 20%;
+  min-width: 10em;
+  margin: 0px;
+  padding: 0px;
+  align-items: center;
+  text-align: center;
 }
 
 nav {
@@ -63,6 +86,9 @@ footer {
 }
 
 @media (max-width: 949px) {
+  .main, .logo  {
+    width: 100%;
+  }
   nav {
     width: 100%;
     overflow-x: auto;
@@ -82,13 +108,13 @@ footer {
   .main, .logo  {
     width: 85%;
   }
-  .menu {
-    padding: 0em 0.2em 0.4em 0.2em;
-  }
   nav {
     width: 30%;
     float: left;
     height: 100%;
+  }
+  .menu {
+    padding: 0em 0.2em 0.4em 0.2em;
   }
   .left {
     float: left;

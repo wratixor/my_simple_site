@@ -79,14 +79,14 @@ async def s_set_auth(db: DB, login: str = None, password: str = None) -> str:
             logger.error(result)
     return result
 
-async def s_get_auth(db: DB, login: str = None, session: str = None) -> str:
+async def s_get_auth(db: DB, login: str = None, sid: str = None) -> str:
     pool = await db.get_pool()
     result: str
     async with pool.acquire() as conn:
         try:
-            result = await conn.fetchval('select * from api.s_get_auth($1::text, $2::text)', login, session)
+            result = await conn.fetchval('select * from api.s_get_auth($1::text, $2::text)', login, sid)
         except Exception as e:
-            result = f'Exception s_get_auth({login}, {session}): {e}'
+            result = f'Exception s_get_auth({login}, {sid}): {e}'
             logger.error(result)
     return result
 

@@ -1,9 +1,23 @@
 {% extends 'index.html' %}
 {% block content %}
 <div class="item">
-    <div>
-        <a href="/admin/img" class="afo">Редактирование изображений</a>
+    {% if auth == 'admin' -%}
+        {% block admin %}
+        <div>
+            <a href="/admin/img" class="afo">Редактирование изображений</a>
+        </div>
+        {% endblock admin %}
+    {% else -%}
+    <div class="center">
+        <h1>Нет доступа</h1>
+        <h3>
+            {% if auth == 'anon' -%}
+            Необходимо выполнить <a href="/user">вход!</a>
+            {% else -%}
+            {{login}} - {{auth}}
+            {% endif -%}
+        </h3>
     </div>
-    <h1>В РАЗРАБОТКЕ</h1>
+    {% endif -%}
 </div>
 {% endblock content %}

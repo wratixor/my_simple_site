@@ -8,10 +8,13 @@ from decouple import config
 
 from db_utils.db_class import DB
 from web_app import routes
+from web_app import middlewares
 
 
 def create_app() -> web.Application:
     web_app = web.Application()
+
+    middlewares.setup_middlewares(web_app)
     routes.setup_routes(web_app)
     aiohttp_jinja2.setup(web_app, loader=jinja2.FileSystemLoader('template'))
 
