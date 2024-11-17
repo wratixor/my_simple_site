@@ -1,3 +1,4 @@
+import logging
 import ssl
 
 import aiohttp
@@ -10,6 +11,7 @@ from db_utils.db_class import DB
 from web_app import routes
 from web_app import middlewares
 
+logger = logging.getLogger(__name__)
 
 def create_app() -> web.Application:
     web_app = web.Application()
@@ -24,7 +26,7 @@ def create_app() -> web.Application:
         cert = config('CERT')
         key = config('KEY')
     except Exception as e:
-        print(e)
+        logger.error(e)
 
     if cert and key:
         ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
