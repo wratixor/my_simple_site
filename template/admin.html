@@ -1,23 +1,73 @@
 {% extends 'index.html' %}
 {% block content %}
-<div class="item">
     {% if auth == 'admin' -%}
+    <div class="admin">
+        <a href="/admin" class="auth">Заголовки и удаление</a>
+        <a href="/admin/img" class="auth">Управление изображениями</a>
+        <a href="/admin/all" class="auth">Редактирование разделов</a>
+        <a href="/admin/all/new" class="auth">Добавление статей</a>
+    </div>
         {% block admin %}
-        <div>
-            <a href="/admin/img" class="afo">Редактирование изображений</a>
-        </div>
+        <div class="item"><div class="center">
+            <h3>Удалить:</h3>
+            <form action="/admin/drop" method="POST" enctype="multipart/form-data">
+                <div class="padding">
+                        <div class="fol">
+                            <select class="half" name="tablename">
+                                <option value="">--Что удаляем?--</option>
+                                <option value="title">Заголовок</option>
+                                <option value="section">Раздел</option>
+                                <option value="image">Изображение</option>
+                                <option value="chapter">Статью</option>
+                            </select>
+                        </div>
+                    <div class="foi">
+                        <input class="qwart" type="text" name="gid" size="4">
+                        <input class="qwart" type="submit" value="Удалить">
+                    </div>
+                </div>
+            </form>
+        </div></div>
+        <div class="item"><div class="center">
+            <h3>Новый заголовок:</h3>
+            <form action="/admin/title/save" method="POST" enctype="multipart/form-data">
+                <div class="padding">
+                    <div class="fol"><label for="new_title">Добавить новый заголовок: </label></div>
+                    <div class="foi"><input class="half" type="text" id="new_title" name="title" size="32" maxlength="64"></div>
+                </div>
+                <div class="padding">
+                    <div class="fol"><input class="qwart" type="submit" value="Отправить"></div>
+                    <div class="foi"><input class="qwart" type="reset" value="Очистить"></div>
+                </div>
+            </form>
+        </div></div>
+        <div class="item"><div class="center">
+            <h3>Редактировать заголовки:</h3>
+            {% for i in all_titles %}
+            <form action="/admin/title/save" method="POST" enctype="multipart/form-data">
+                <div class="padding">
+                    <div class="fol"><input class="half" type="text" name="title" value="{{i['title']}}" size="32" maxlength="64"></div>
+                    <div class="foi">
+                        <input class="qwart" type="text" name="gid" value="{{i['gid']}}" size="4">
+                        <input class="qwart" type="submit" value="Сохранить">
+                    </div>
+                </div>
+            </form>
+            {% endfor %}
+        </div></div>
         {% endblock admin %}
     {% else -%}
-    <div class="center">
-        <h1>Нет доступа</h1>
-        <h3>
-            {% if auth == 'anon' -%}
-            Необходимо выполнить <a href="/user">вход!</a>
-            {% else -%}
-            {{login}} - {{auth}}
-            {% endif -%}
-        </h3>
+    <div class="item">
+        <div class="center">
+            <h1>Нет доступа</h1>
+            <h3>
+                {% if auth == 'anon' -%}
+                Необходимо выполнить <a href="/user">вход!</a>
+                {% else -%}
+                {{login}} - {{auth}}
+                {% endif -%}
+            </h3>
+        </div>
     </div>
     {% endif -%}
-</div>
 {% endblock content %}

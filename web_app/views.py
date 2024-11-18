@@ -71,13 +71,14 @@ async def user(request: web.Request):
 async def admin(request: web.Request):
     sections = await r.r_section(request.app['db'])
     page = await r.r_page(request.app['db'], None, None)
-    auth: str = request.app['auth']
+    titles = await r.r_all_title(request.app['db'])
     return {'title': page[0]['title'],
             'adult': page[0]['adult'],
             'curl': page[0]['curl'],
             'auth': request.app['auth'],
             'login': request.app['login'],
             'sections': sections,
+            'all_titles': titles,
             'year': year}
 
 @aiohttp_jinja2.template('admin_img.html')
@@ -94,4 +95,35 @@ async def admin_img(request: web.Request):
             'sections': sections,
             'imageid': imageid,
             'all_images': all_images,
+            'year': year}
+
+@aiohttp_jinja2.template('admin_sec.html')
+async def admin_sec(request: web.Request):
+    sec = request.match_info.get('sec')
+    sections = await r.r_section(request.app['db'])
+    all_sections = await r.r_all_section(request.app['db'])
+    page = await r.r_page(request.app['db'], sec, None)
+    return {'title': page[0]['title'],
+            'adult': page[0]['adult'],
+            'curl': page[0]['curl'],
+            'auth': request.app['auth'],
+            'login': request.app['login'],
+            'sections': sections,
+            'all_sections': all_sections,
+            'year': year}
+
+@aiohttp_jinja2.template('admin_chap.html')
+async def admin_chapter(request: web.Request):
+    sec: str = request.match_info.get('sec')
+    chap: str = request.match_info.get('chapter')
+    sections = await r.r_section(request.app['db'])
+    raw_article = await r.r_raw_chapter(request.app['db'], sec, chap)
+    page = await r.r_page(request.app['db'], sec, chap)
+    return {'title': page[0]['title'],
+            'adult': page[0]['adult'],
+            'curl': page[0]['curl'],
+            'auth': request.app['auth'],
+            'login': request.app['login'],
+            'sections': sections,
+            'raw_article': raw_article,
             'year': year}

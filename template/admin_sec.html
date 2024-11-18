@@ -1,0 +1,60 @@
+{% extends 'admin.html' %}
+{% block admin %}
+<div class="item"><div class="center">
+    <h3>Новый раздел:</h3>
+    <form action="/admin/sec/save" method="POST" enctype="multipart/form-data">
+        <div class="padding">
+            <div class="fol"><label for="title">Название: </label></div>
+            <div class="foi"><input class="half" type="text" id="title" name="title" size="32" maxlength="64"></div>
+        </div>
+        <div class="padding">
+            <div class="fol"><label for="curl">Адрес: </label></div>
+            <div class="foi"><input class="half" type="text" id="curl" name="curl" size="32" maxlength="64"></div>
+        </div>
+        <div class="padding">
+            <div class="fol"><label for="priority">Приоритет: </label></div>
+            <div class="foi">
+                <select class="half" name="priority" id="priority">
+                    <option value="1">Закреплённое</option>
+                    <option value="2">Важное</option>
+                    <option value="3" selected>Обычное</option>
+                    <option value="4">Неважное</option>
+                    <option value="5">Архив</option>
+                </select>
+            </div>
+        </div>
+        <div class="padding">
+            <div class="fol"><label for="adult">Ограничение 18+: </label></div>
+            <div class="foi">
+                <select class="half" name="adult" id="adult">
+                    <option class="half" value="false" selected>Общедоступное</option>
+                    <option class="half" value="true">Для взрослых</option>
+                </select>
+            </div>
+        </div>
+        <div class="padding">
+            <div class="fol"><input class="qwart" type="submit" value="Отправить"></div>
+            <div class="foi"><input class="qwart" type="reset" value="Очистить"></div>
+        </div>
+    </form>
+</div></div>
+<div class="item"><div class="center">
+    <h3>Редактировать разделы:</h3>
+    {% for i in all_sections %}
+    <form action="/admin/sec/save" method="POST" enctype="multipart/form-data">
+        <div class="padding">
+            <div class="fol">
+                <input class="half" type="text" name="curl" value="{{i['curl']}}" size="13" maxlength="64">
+                <input class="half" type="text" name="title" value="{{i['title']}}" size="13" maxlength="64">
+            </div>
+            <div class="foi">
+                <input class="qwart" type="text" name="adult" value="{{i['adult_flg']}}" size="5" maxlength="5">
+                <input class="qwart" type="text" name="priority" value="{{i['priority']}}" size="2">
+                <input class="qwart" type="text" name="gid" value="{{i['section_gid']}}" size="4">
+                <input class="qwart" type="submit" value="Сохранить">
+            </div>
+        </div>
+    </form>
+    {% endfor %}
+</div></div>
+{% endblock admin %}

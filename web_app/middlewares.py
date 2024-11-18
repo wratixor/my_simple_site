@@ -18,9 +18,10 @@ async def auth_middleware(request: web.Request, handler: Callable[[web.Request],
         resp.del_cookie(name='user')
         resp.del_cookie(name='sid')
         return resp
-    request.app['auth'] = result
-    request.app['login'] = login
-    return await handler(request)
+    else:
+        request.app['auth'] = result
+        request.app['login'] = login
+        return await handler(request)
 
 def setup_middlewares(app: aiohttp.web.Application):
     app.middlewares.append(auth_middleware)

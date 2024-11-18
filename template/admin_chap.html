@@ -1,0 +1,65 @@
+{% extends 'admin.html' %}
+{% block admin %}
+<div class="item"><div class="center">
+    <h3>Add or update article:</h3>
+    {% for i in raw_article %}
+    <form action="/admin/chapter/save" method="POST" enctype="multipart/form-data">
+        <div class="padding">
+            <div class="fol">
+                <label for="curl_sec">Раздел / </label>
+                <label for="curl">Адрес:</label>
+            </div>
+            <div class="foic">
+                <input class="half" type="text" id="curl_sec" name="curl_sec" value="{{i['curl_sec']}}" size="20" maxlength="64">
+                <input class="half" type="text" id="curl" name="curl" value="{{i['curl']}}" size="20" maxlength="64">
+            </div>
+        </div>
+        <div class="padding">
+            <div class="fol"><label for="title">Заголовок:</label></div>
+            <div class="foic"><input type="text" id="title" name="title" value="{{i['title']}}" size="40" maxlength="64"></div>
+        </div>
+        <div class="padding">
+            <div class="fol"><div id="p_article">{{i['article']|safe}}</div></div>
+            <div class="foic"><textarea id="article" name="article" rows="50" cols="40">{{i['article']|safe}}</textarea></div>
+        </div>
+        <div class="padding">
+            <div class="fold">
+                <img class="mthumb" id="p_curl_img_t" src="/img/{{i['curl_img_t']}}"/>
+                <label for="curl_img_t">Мини:</label>
+            </div>
+            <div class="foic">
+                <input type="text" id="curl_img_t" name="curl_img_t" size="40" maxlength="32">
+            </div>
+        </div>
+        <div class="padding">
+            <div class="fold">
+                <img class="mthumb" id="p_curl_img" src="/img/{{i['curl_img']}}"/>
+                <label for="curl_img">Фулл:</label>
+            </div>
+            <div class="foic">
+                <input type="text" id="curl_img" name="curl_img" size="40" maxlength="32">
+            </div>
+        </div>
+        <div class="padding">
+                <div class="fol">
+                <label for="priority">Приоритет, </label>
+                <label for="center_f">Центр, </label>
+                <label for="adult">18+, </label>
+                <label for="gid">Гид:</label>
+            </div>
+            <div class="foic">
+                <input class="qwart" type="text" id="priority" name="priority" value="{{i['priority']}}" size="2">
+                <input class="qwart" type="text" id="center_f" name="center_f" value="{{i['center_f']}}" size="5" maxlength="5">
+                <input class="qwart" type="text" id="adult" name="adult" value="{{i['adult']}}" size="5" maxlength="5">
+                <input class="qwart" type="text" id="gid" name="gid" value="{{i['gid']}}" size="4">
+            </div>
+        </div>
+        <div class="padding">
+            <div class="fol"><input class="qwart" type="submit" value="Сохранить"></div>
+            <div class="foi"><input class="qwart" type="reset" value="Сбросить"></div>
+        </div>
+    </form>
+    {% endfor %}
+</div></div>
+<script type="application/javascript" src="/static/chapter_editor.js"></script>
+{% endblock admin %}

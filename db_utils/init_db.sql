@@ -590,6 +590,74 @@ RETURN;
 END
 $function$
 ;
+/*
+api.s_aou_chapter(i_curl_sec text, i_curl_chap text, i_article text, i_priority int default 5::int, i_title text default null::text
+                 , i_curl_img_t text default null::text, i_curl_img text default null::text, i_center boolean default false::boolean
+                 , i_adult boolean default false::boolean, i_gid bigint default null::bigint)
+*/
+DROP TYPE IF EXISTS api.t_raw_chapter CASCADE;
+CREATE TYPE api.t_raw_chapter AS (
+	curl_sec text,
+	curl text,
+	article text,
+	priority int,
+	title text,
+	curl_img_t text,
+	curl_img text,
+	center_f boolean,
+	adult boolean,
+    gid bigint);
+
+DROP FUNCTION IF EXISTS api.r_raw_chapter(text);
+CREATE OR REPLACE FUNCTION api.r_raw_chapter(i_curl_chap text)
+ RETURNS SETOF api.t_raw_chapter
+ LANGUAGE plpgsql
+ STABLE SECURITY DEFINER COST 1 ROWS 1
+AS $function$
+DECLARE
+  l_check_curl_chap boolean := lower(i_curl_chap) ~ '^[a-z0-9_]{3,64}$';
+  l_curl_chap varchar(64) := lower(i_curl_chap);
+  l_chapter_gid bigint := null;
+
+BEGIN
+    IF l_check_curl_chap THEN
+      l_chapter_gid := (select chapter_gid from rmaster.chapter where curl = l_curl_chap);
+    END IF;
+    RETURN QUERY
+        select s.curl::text as curl_sec
+             , c.curl::text as curl
+             , c.article::text as article
+             , c.priority::int as priority
+             , c.title::text as title
+             , ti.curl::text as curl_img_t
+             , i.curl::text as curl_img
+             , c.center_flg::boolean as center_f
+             , c.adult_flg::boolean as adult
+             , c.chapter_gid::bigint as gid
+	      from rmaster.chapter as c
+	      join rmaster.sec as s on s.section_gid = c.section_gid
+	      left join rmaster.image as i on i.image_gid = c.image_gid
+	      left join rmaster.image as ti on ti.image_gid = c.thumb_image_gid
+	     where l_chapter_gid is not null
+	       and c.chapter_gid = l_chapter_gid
+	     union
+	    select ''::text as curl_sec
+             , ''::text as curl
+             , ''::text as article
+             , 3::int as priority
+             , ''::text as title
+             , ''::text as curl_img_t
+             , ''::text as curl_img
+             , false::boolean as center
+             , false::boolean as adult
+             , 0::bigint as gid
+	      from (select 1) s
+	     where l_chapter_gid is null
+    FOR READ ONLY;
+RETURN;
+END
+$function$
+;
 
 /*
 select * from api.r_chapter('important'::text);
@@ -630,6 +698,7 @@ AS $function$
  BEGIN
 
   l_check_available := ((select count(1) from rmaster.title where title = l_title) = 0);
+  l_check_gid := ((select count(1) from rmaster.title where title_gid = l_gid) = 1);
   IF l_check_available THEN
     IF l_gid = 0 THEN
       insert into rmaster.title (title) values (l_title);
@@ -976,7 +1045,7 @@ AS $function$
   l_check_correct boolean := false;
   l_check_admin   boolean := false;
   l_check_login   boolean := i_login ~ '^[a-zA-Z0-9_]{3,64}$';
-  l_check_session boolean := i_sessin ~ '^[0-9a-f]{32}$';
+  l_check_session boolean := i_session ~ '^[0-9a-f]{32}$';
 
   l_login varchar(64) := i_login;
   l_session  char(32) := i_session;

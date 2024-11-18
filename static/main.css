@@ -35,21 +35,49 @@ header {
   margin: 0px;
   align-content: center;
   min-width: 10em;
+  background-color: #fdb200;
 }
+
+.admin {
+  display: flex;
+  margin: 0em 0.2em 0.4em 0.2em;
+  padding: 0px;
+  border: solid 1px #fdb200;
+  align-content: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: #fdb20040;
+}
+
 .auth {
   display: inline-flex;
   height: 60px;
-  background-color: #fdb200;
-  width: 20%;
+  width: 25%;
   min-width: 10em;
-  margin: 0px;
-  padding: 0px;
+  align-content: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
   text-align: center;
 }
 
 nav {
   background-color: #fdb20040;
+}
+
+input, textarea, select {
+  width: 100%;
+}
+
+.qwart {
+  width: 23%;
+}
+
+.half {
+  width: 48%;
 }
 
 footer {
@@ -59,25 +87,48 @@ footer {
   align-content: center;
   padding: 0.2em;
 }
-
-.fo, .fol, .foi {
-  display: inline-block;
-  width: 45%;
-  padding: 0.2em;
+.padding {
+  display: flex;
+  margin: 0.2em;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
 }
 .fo {
+  display: inline-block;
+  width: 45%;
   text-align: center;
   align-content: center;
 }
+ .fol, .fold, .foi, .foic {
+  display: inline-flex;
+  width: 50%;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+}
+#p_article {
+  text-align: left;
+}
 .fol {
   text-align: right;
-  align-content: right;
+  justify-content: flex-end;
+}
+.fold {
+  text-align: center;
+  justify-content: space-between;
 }
 .foi {
   text-align: left;
-  align-content: left;
+  justify-content: start;
 }
-
+.foic {
+  text-align: center;
+  justify-content: center;
+}
+label {
+  margin-right: 0.3em;
+}
 .afo {
   display: block;
   height: 1.5em;
@@ -194,6 +245,14 @@ a:active, .alarmbutton:active {
 
 .thumb {
   height: 8em;
+  max-width: 100%;
+  float: left;
+  text-align: center;
+  align-content: center;
+}
+
+.mthumb {
+  height: 4em;
   max-width: 100%;
   float: left;
   text-align: center;

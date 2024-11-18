@@ -1,21 +1,31 @@
 {% extends 'admin.html' %}
 {% block admin %}
-<div class="center">
+<div class="item"><div class="center">
     <h3>Add or update image:</h3>
     <form action="/admin/img/save" method="POST" enctype="multipart/form-data">
-        <div class="fol"><label for="curl">Заменить изображение: </label></div>
-        <div class="foi"><input type="text" id="curl" name="curl" {% if imageid -%} value="{{imageid}}"{% endif -%}></div>
-        <div class="fol"><label for="ext">Расширение: </label></div>
-        <div class="foi"><select name="ext" id="ext">
-                <option value="png">PNG</option>
-                <option value="jpeg">JPEG</option>
-            </select></div>
-        <div class="fol"><label for="image">Выбрать изображение: </label></div>
-        <div class="foi"><input type="file" id="image" name="image" accept="image/png, image/jpeg"></div>
-        <div class="fol"><input type="submit" value="Отправить"></div>
-        <div class="foi"><input type="reset" value="Очистить"></div>
+        <div class="padding">
+            <div class="fol"><label for="curl">Заменить изображение: </label></div>
+            <div class="foi"><input class="half" type="text" id="curl" name="curl" {% if imageid -%} value="{{imageid}}"{% endif -%}></div>
+        </div>
+        <div class="padding">
+            <div class="fol"><label for="ext">Расширение: </label></div>
+            <div class="foi">
+                <select class="qwart" name="ext" id="ext">
+                    <option value="png">PNG</option>
+                    <option value="jpeg">JPEG</option>
+                </select>
+            </div>
+        </div>
+        <div class="padding">
+            <div class="fol"><label for="image">Выбрать изображение: </label></div>
+            <div class="foi"><input class="half" type="file" id="image" name="image" accept="image/png, image/jpeg"></div>
+        </div>
+        <div class="padding">
+            <div class="fol"><input class="qwart" type="submit" value="Отправить"></div>
+            <div class="foi"><input class="qwart" type="reset" value="Очистить"></div>
+        </div>
     </form>
-</div>
+</div></div>
 {% if imageid -%}<div class="center"><img class="desc" src="/img/{{imageid}}"></div>{% endif -%}
 {% for i in all_images %}
     <div class="item">
