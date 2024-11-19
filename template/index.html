@@ -43,13 +43,13 @@
 
 </header>
 <div class="main">
-    <nav>
+    <nav id="left_column">
         <h2 class="hpad">Разделы:</h2>
         {% for s in sections %}
         <div class="menu"><a href="/{{s['curl']}}" class="amenu">{{s['title']}}</a></div>
         {% endfor %}
     </nav>
-    <div class="left">
+    <div class="left" id="right_column">
         <h2 class="cpad">{{title}}</h2>
         {% if adult -%}
         <div class="lpad" id="alarm">

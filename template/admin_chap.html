@@ -2,7 +2,7 @@
 {% block admin %}
 <script type="application/javascript" src="/static/chapter_editor.js"></script>
 <div class="item"><div class="center">
-    <h3>Add or update article:</h3>
+    <h3 onclick="hidden_left()">(Expand this) Add or update article:</h3>
     {% for i in raw_article %}
     <form action="/admin/chapter/save" method="POST" enctype="multipart/form-data">
         <div class="padding">

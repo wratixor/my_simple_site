@@ -15,3 +15,10 @@ const upd_img = () => {
         output = document.getElementById('p_curl_img');
         output.src = '/img/' + input.value
     }
+
+const hidden_left = () => {
+        left = document.getElementById('left_column');
+        right = document.getElementById('right_column');
+        left.style.setProperty('display', 'none');
+        right.style.setProperty('width', '100%');
+    }
