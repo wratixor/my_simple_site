@@ -109,6 +109,8 @@ footer {
 }
 #p_article {
   text-align: left;
+  width: 100%;
+  overflow-wrap: break-word;
 }
 .fol {
   text-align: right;

@@ -1,5 +1,6 @@
 {% extends 'admin.html' %}
 {% block admin %}
+<script type="application/javascript" src="/static/chapter_editor.js"></script>
 <div class="item"><div class="center">
     <h3>Add or update article:</h3>
     {% for i in raw_article %}
@@ -20,7 +21,7 @@
         </div>
         <div class="padding">
             <div class="fol"><div id="p_article">{{i['article']|safe}}</div></div>
-            <div class="foic"><textarea id="article" name="article" rows="50" cols="40">{{i['article']|safe}}</textarea></div>
+            <div class="foic"><textarea id="article" name="article" rows="50" cols="40" onchange="upd_article()">{{i['article']|safe}}</textarea></div>
         </div>
         <div class="padding">
             <div class="fold">
@@ -28,7 +29,7 @@
                 <label for="curl_img_t">Мини:</label>
             </div>
             <div class="foic">
-                <input type="text" id="curl_img_t" name="curl_img_t" size="40" maxlength="32">
+                <input type="text" id="curl_img_t" name="curl_img_t" size="40" maxlength="32" value="{{i['curl_img_t']}}" onchange="upd_img_t()">
             </div>
         </div>
         <div class="padding">
@@ -37,16 +38,16 @@
                 <label for="curl_img">Фулл:</label>
             </div>
             <div class="foic">
-                <input type="text" id="curl_img" name="curl_img" size="40" maxlength="32">
+                <input type="text" id="curl_img" name="curl_img" size="40" maxlength="32" value="{{i['curl_img']}}" onchange="upd_img()">
             </div>
         </div>
         <div class="padding">
-                <div class="fol">
-                <label for="priority">Приоритет, </label>
-                <label for="center_f">Центр, </label>
-                <label for="adult">18+, </label>
-                <label for="gid">Гид:</label>
-            </div>
+            <div class="fol">
+                    <label for="priority">Приоритет, </label>
+                    <label for="center_f">Центр, </label>
+                    <label for="adult">18+, </label>
+                    <label for="gid">Гид:</label>
+                </div>
             <div class="foic">
                 <input class="qwart" type="text" id="priority" name="priority" value="{{i['priority']}}" size="2">
                 <input class="qwart" type="text" id="center_f" name="center_f" value="{{i['center_f']}}" size="5" maxlength="5">
@@ -61,5 +62,4 @@
     </form>
     {% endfor %}
 </div></div>
-<script type="application/javascript" src="/static/chapter_editor.js"></script>
 {% endblock admin %}
