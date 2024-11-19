@@ -14,5 +14,8 @@
 - <code>source .venv/bin/activate</code><br>
 - <code>pip install -r requirements.txt</code><br>
 - Edit template.env and rename to .env<br>
+- Create postgres db and schemas api and rmaster
+- Run ./db_utils/init_db.sql in psql
+- Run python3 aiohttp_run.py
 
 
