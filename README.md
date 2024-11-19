@@ -9,7 +9,9 @@
  - jinja2<br>
 
 <h3>Install:</h3>
-- <code>git clone https://github.com/wratixor/my_simple_site</code></br>
+- <code>git clone https://github.com/wratixor/my_simple_site</code><br>
+- <code>python3 -m venv .venv</code><br>
+- <code>source .venv/bin/activate</code><br>
 - <code>pip install -r requirements.txt</code><br>
 - Edit template.env and rename to .env<br>
 
