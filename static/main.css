@@ -191,7 +191,7 @@ label {
 
 
 a {
-  color: inherit;
+  color: #fdb200;
   text-decoration: none;
 }
 
@@ -221,6 +221,7 @@ a:active, .alarmbutton:active {
 
 .amenu {
   display: block;
+  color: #ffffff;
   background-color: #fdb20040;
   border: solid 1px #fdb200;
   text-align: inherit;
@@ -300,6 +301,7 @@ a:active, .alarmbutton:active {
 .aitem {
   display: block;
   height: 8em;
+  color: #ffffff;
   background-color: #fdb20040;
   margin: 0px;
   padding: 0em 1em 0em 1em;
