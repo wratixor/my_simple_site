@@ -16,6 +16,9 @@
 - Edit template.env and rename to .env<br>
 - Create postgres db and schemas "api" and "rmaster"<br>
 - Run <code>./db_utils/init_db.sql</code> in psql<br>
-- Run python3 aiohttp_run.py<br>
+- Edit site.service<br>
+- <code>ln -s /../site.service /etc/systemd/system</code><br>
+- <code>systemctl enable site.service</code><br>
+- <code>systemctl start site.service</code><br>
 
 
