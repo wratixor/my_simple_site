@@ -11,7 +11,7 @@ from db_utils.db_class import DB
 from web_app import routes
 from web_app import middlewares
 
-logging.basicConfig(level=logging.CRITICAL, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 def create_app() -> web.Application:
