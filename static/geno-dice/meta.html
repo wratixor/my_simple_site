@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Geno-Dice META</title>
+    <style>
+        body { font-family: 'Courier New', monospace; background: #0a0a0a; color: #ccc; margin: 0; }
+        .container { max-width: 1200px; margin: auto; padding: 20px; }
+        select { background: #222; color: #0f0; border: 1px solid #555; padding: 5px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
+        th, td { padding: 6px 10px; border: 1px solid #333; text-align: left; }
+        th { background: #111; color: #0f0; position: sticky; top: 0; }
+        .trend-up { color: #0f0; }
+        .trend-down { color: #f00; }
+        .trend-new { color: #ff0; }
+        .trend-same { color: #aaa; }
+        .rank { text-align: right; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧬 Geno-Dice META</h1>
+        <label for="league">Лига: </label>
+        <select id="leagueSelect"><option value="">Все лиги</option></select>
+        <table id="metaTable">
+            <thead>
+                <tr>
+                    <th>Ранг</th><th>Изм.</th><th>Скилл</th><th>Ульт</th><th>Win%</th>
+                    <th>Скилл%</th><th>Ульт%</th><th>Ср.Сила</th><th>Ср.Иниц</th>
+                    <th>Боёв</th><th>Топ ELO</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <script>
+        const API = 'https://api.wratixor.ru/api/meta';  // замени на полный URL, если страница не на том же домене
+        let allData = [];
+
+        function renderTable(league) {
+            const filtered = league
+                ? allData.filter(l => l.name === league)
+                : allData;
+            const tbody = document.querySelector('#metaTable tbody');
+            tbody.innerHTML = '';
+            filtered.forEach(leagueData => {
+                leagueData.combinations.forEach(c => {
+                    let trendClass = 'trend-same';
+                    let trendSymbol = '–';
+                    if (c.trend === 'new') {
+                        trendClass = 'trend-new';
+                        trendSymbol = 'NEW';
+                    } else {
+                        const change = parseInt(c.trend);
+                        if (change > 0) {
+                            trendClass = 'trend-up';
+                            trendSymbol = `▲${change}`;
+                        } else if (change < 0) {
+                            trendClass = 'trend-down';
+                            trendSymbol = `▼${Math.abs(change)}`;
+                        }
+                    }
+                    const row = `<tr>
+                        <td class="rank">${c.rank}</td>
+                        <td class="${trendClass}">${trendSymbol}</td>
+                        <td>${c.skill}</td>
+                        <td>${c.ultimate}</td>
+                        <td>${c.win_rate.toFixed(1)}%</td>
+                        <td>${c.skill_success_rate.toFixed(1)}%</td>
+                        <td>${c.ultimate_success_rate.toFixed(1)}%</td>
+                        <td>${c.avg_power.toFixed(1)}</td>
+                        <td>${c.avg_init.toFixed(1)}</td>
+                        <td>${c.total_battles}</td>
+                        <td>${c.top_elo.toFixed(1)}</td>
+                    </tr>`;
+                    tbody.insertAdjacentHTML('beforeend', row);
+                });
+            });
+        }
+
+        fetch(API)
+            .then(r => r.json())
+            .then(data => {
+                allData = data.leagues;
+                const select = document.getElementById('leagueSelect');
+                allData.forEach(l => {
+                    const opt = document.createElement('option');
+                    opt.value = l.name;
+                    opt.textContent = l.name;
+                    select.appendChild(opt);
+                });
+                select.addEventListener('change', e => renderTable(e.target.value || null));
+                renderTable(null);
+            })
+            .catch(() => alert('Ошибка загрузки меты'));
+    </script>
+</body>
+</html>
