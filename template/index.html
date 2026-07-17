@@ -64,6 +64,12 @@
                 <div class="alarmbutton" onclick="clickYes()"><h3>Ок, мне есть 18, показывайте!</h3></div>
                 <div class="alarmbutton" onclick="clickNo()"><h3>Спасибо, не надо...</h3></div>
                 <div class="center">Для сохранения ответа будут использованы файлы куки (cookie)</div>
+                <div class="center">
+                    Нажимая кнопку, вы соглашаетесь с условиями
+                    <a href="https://wratixor.ru/static/LICENSE/eula.html" class="afo">Лицензионного соглашения</a>
+                    и
+                    <a href="https://wratixor.ru/static/LICENSE/privacy.html" class="afo">Политики конфиденциальности</a>
+                </div>
             </div>
         </div>
         {% endif -%}
@@ -83,12 +89,26 @@
 </div>
 <div class="main">
     <footer>
-        <div class="fo">
-            <a href="https://wratixor.ru" class="afo">&copy; 2024-{{year}}, Wratixor &#129333;</a>
+        <div>
+            <div class="fo">
+                <a href="https://wratixor.ru" class="afo">&copy; 2024-{{year}}, Wratixor &#129333;</a>
+            </div>
+            <a href="/admin{{curl}}">|</a>
+            <div class="fo">
+                <!--<a href="https://yoomoney.ru/to/4100118849397169" class="afo">&#128179; Поддержать проект &#8381;</a>-->
+            </div>
         </div>
-        <a href="/admin{{curl}}">|</a>
-        <div class="fo">
-            <a href="https://yoomoney.ru/to/4100118849397169" class="afo">&#128179; Поддержать проект &#8381;</a>
+        <div>
+            <div class="fo">ИП {ФИО}, ИНН {ХХХ}, ОГРНИП {ХХХ}</div> | <div class="fo">Все права защищены</div>
+        </div>
+        <div>
+            <div class="fo">
+                <a href="https://wratixor.ru/static/LICENSE/eula.html" class="afo">Лицензионное соглашение</a>
+            </div>
+            |
+            <div class="fo">
+                <a href="https://wratixor.ru/static/LICENSE/privacy.html" class="afo">Политика конфиденциальности</a>
+            </div>
         </div>
     </footer>
 </div>
