@@ -1,0 +1,14 @@
+name: Deploy wratixor.ru
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: [gitea, runner]   # или укажите конкретный раннер, если есть
+    steps:
+      - name: Run deploy script
+        run: |
+          sudo -u wratixor /var/www/wratixor.ru/my_simple_site/deploy.sh
